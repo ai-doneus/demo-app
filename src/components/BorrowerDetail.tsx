@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useStore } from "../store/useStore";
-import type { BorrowerDetails, ApiResponse } from "../types"; // Add 'type'
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { useStore } from "@/store/useStore";
+import type { BorrowerDetails, ApiResponse } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
-import { Button } from "./ui/button";
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
-import { LoanSummaryCard } from "./LoanSummaryCard";
+import { LoanSummaryCard } from "@/components/LoanSummaryCard";
 
 export function BorrowerDetail() {
   const { activeBorrower } = useStore();
@@ -65,10 +65,7 @@ export function BorrowerDetail() {
             <AccordionTrigger>AI Explainability</AccordionTrigger>
             <AccordionContent>
               {details.ai_flags.map((flag, index) => (
-                <div
-                  key={index}
-                  className="flex items-center text-red-600 mb-2"
-                >
+                <div key={index} className="flex items-center text-red-600 mb-2">
                   <AlertTriangle className="mr-2 h-5 w-5" />
                   <p>{flag}</p>
                 </div>
@@ -76,7 +73,7 @@ export function BorrowerDetail() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <div className="mt-4 flex space-x-2">
+        <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
           <Button
             onClick={() =>
               console.log("Request Documents:", {
