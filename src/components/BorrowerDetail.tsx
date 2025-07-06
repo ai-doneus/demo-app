@@ -15,22 +15,35 @@ import { LoanSummaryCard } from "@/components/LoanSummaryCard";
 export function BorrowerDetail() {
   const { activeBorrower } = useStore();
   const [details, setDetails] = useState<BorrowerDetails | null>(null);
-
+  function isBorrowerDetails(response: any): response is BorrowerDetails {
+  return (
+    response &&
+    typeof response.id === "string" &&
+    typeof response.name === "string" &&
+    typeof response.loan_amount === "number"
+  );
+}
   useEffect(() => {
-    if (activeBorrower) {
-      fetch("/api/sample-response.json")
-        .then((res) => res.json())
-        .then((data: ApiResponse) => {
-          const detail = data.endpoints.find(
-            (e) => e.name === "Get Borrower Detail"
-          )?.response as BorrowerDetails;
-          if (detail && detail.id === activeBorrower.id) {
-            setDetails(detail);
-          }
-        })
-        .catch((error) => console.error("Error fetching details:", error));
-    }
-  }, [activeBorrower]);
+  if (activeBorrower) {
+    fetch("/api/sample-response.json")
+      .then((res) => res.json())
+      .then((data: ApiResponse) => {
+        const detailEndpoint = data.endpoints.find(
+          (e) => e.name === "Get Borrower Detail"
+        );
+
+        // Try to access the borrower detail using the ID as key
+        const detailMap = (detailEndpoint as any)?.responses;
+        const detail = detailMap?.[String(activeBorrower.id)];
+        if (detail) {
+          setDetails(detail);
+        } else {
+          console.warn("No borrower detail found for ID:", activeBorrower.id);
+        }
+      })
+      .catch((error) => console.error("Error fetching details:", error));
+  }
+}, [activeBorrower]);
 
   if (!activeBorrower || !details) {
     return (

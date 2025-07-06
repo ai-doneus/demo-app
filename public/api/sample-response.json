@@ -37,23 +37,61 @@
       "name": "Get Borrower Detail",
       "method": "GET",
       "url": "/api/borrowers/{id}",
-      "response": {
-        "id": "1",
-        "name": "Sarah Dunn",
-        "email": "sarah.dunn@example.com",
-        "phone": "(355)123-4557",
-        "loan_amount": 300000,
-        "status": "In Review",
-        "employment": "At Tech Company",
-        "income": 120000,
-        "existing_loan": 240000,
-        "credit_score": 720,
-        "source_of_funds": "Declared",
-        "risk_signal": "Missing Source of Funds declaration",
-        "ai_flags": [
-          "Income Inconsistent with Bank statements",
-          "High Debt-to-Income Ratio detected"
-        ]
+      "responses":{
+        "1":{
+          "id": "1",
+          "name": "Sarah Dunn",
+          "email": "sarah.dunn@example.com",
+          "phone": "(355)123-4557",
+          "loan_amount": 300000,
+          "status": "In Review",
+          "employment": "At Tech Company",
+          "income": 120000,
+          "existing_loan": 240000,
+          "credit_score": 720,
+          "source_of_funds": "Declared",
+          "risk_signal": "Missing Source of Funds declaration",
+          "ai_flags": [
+            "Income Inconsistent with Bank statements",
+            "High Debt-to-Income Ratio detected"
+          ]
+        },
+        "3":{
+          "id": "3",
+          "name": "Lisa Carter",
+          "email": "lisa.carter@example.com",
+          "phone": "(646)321-9876",
+          "loan_amount": 450000,
+          "status": "New",
+          "employment": "Marketing Director",
+          "income": 150000,
+          "existing_loan": 100000,
+          "credit_score": 750,
+          "source_of_funds": "Undeclared",
+          "risk_signal": "Missing Source of Funds declaration",
+          "ai_flags": [
+            "Discrepancy between declared income and tax records",
+            "High loan exposure relative to income"
+          ]
+        },
+        "2":{
+          "id": "2",
+          "name": "Alan Matthews",
+          "email": "alan.matthews@example.com",
+          "phone": "(212)456-7890",
+          "loan_amount": 20000,
+          "status": "In Review",
+          "employment": "Freelancer",
+          "income": 45000,
+          "existing_loan": 5000,
+          "credit_score": 680,
+          "source_of_funds": "Declared",
+          "risk_signal": "None",
+          "ai_flags": [
+            "Irregular income pattern detected",
+            "Potential underreporting of liabilities"
+          ]
+        }
       }
     },
     {
