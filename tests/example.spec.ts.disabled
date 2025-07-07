@@ -1,0 +1,80 @@
+import { test, expect } from '@playwright/test'
+
+test.describe('Main Layout Functionality', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/')
+  })
+
+  test('Selecting a borrower updates detail pane', async ({ page }) => {
+    const borrowerCard = page.locator('.cursor-pointer').first()
+    const borrowerName = await borrowerCard.locator('p.font-semibold').first().textContent()
+
+    await borrowerCard.click()
+
+    // Check that detail pane updates with borrower name
+    await expect(page.locator('header >> text=' + borrowerName)).toBeVisible()
+  })
+
+  test('Broker Overview section renders on desktop', async ({ page }) => {
+    // The full BrokerOverview card is shown on md+ screens
+    await expect(page.locator('text=Deals')).toBeVisible()
+    await expect(page.locator('text=Approval Rate')).toBeVisible()
+    await expect(page.locator('text=Pending')).toBeVisible()
+  })
+
+  test('Broker overview shows inside accordion on mobile', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 375, height: 667 } }) // iPhone size
+    const page = await context.newPage()
+    await page.goto('/')
+
+    const accordion = page.getByRole('button', { name: /broker overview/i })
+    await accordion.click()
+
+    await expect(page.locator('text=Deals')).toBeVisible()
+    await expect(page.locator('text=Approval Rate')).toBeVisible()
+    await expect(page.locator('text=Pending')).toBeVisible()
+  })
+
+  test('Specific action buttons trigger console logs', async ({ page }) => {
+    const logs: string[] = []
+    page.on('console', (msg) => {
+      if (msg.type() === 'log') {
+        logs.push(msg.text())
+        console.log('Console log:', msg.text())
+      }
+    })
+
+    await page.goto('/') // change URL as needed
+    await page.waitForLoadState('networkidle')
+
+    // Button texts that should log on click
+    const buttonLabels = ['Request Documents', 'Send to Valuer', 'Approve']
+
+    for (const label of buttonLabels) {
+      const button = page.getByRole('button', { name: label })
+      await expect(button).toBeVisible()
+      await button.click()
+    }
+
+    // Wait shortly for any async console logs
+    await page.waitForTimeout(500)
+
+    expect(logs.length).toBeGreaterThanOrEqual(buttonLabels.length)
+    // Optionally check logs content
+    buttonLabels.forEach(label => {
+      expect(logs.some(log => log.toLowerCase().includes(label.toLowerCase()))).toBeTruthy()
+    })
+  })
+
+  test('Toggles like E Ardsassist work', async ({ page }) => {
+    const toggle = page.locator('input[type="checkbox"][id="e-ardsassist"]')
+
+    await expect(toggle).toBeVisible()
+    const checkedBefore = await toggle.isChecked()
+
+    await toggle.click()
+    const checkedAfter = await toggle.isChecked()
+
+    expect(checkedBefore).not.toBe(checkedAfter)
+  })
+})

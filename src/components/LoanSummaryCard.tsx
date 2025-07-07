@@ -33,7 +33,7 @@ export function LoanSummaryCard({ details }: LoanSummaryCardProps) {
             <p>{details.source_of_funds}</p>
           </div>
         </div>
-        <div className="mt-4 flex items-center text-red-600">
+        <div className="mt-4 flex items-center text-yellow-600">
           <AlertTriangle className="mr-2 h-5 w-5" />
           <p>{details.risk_signal}</p>
         </div>

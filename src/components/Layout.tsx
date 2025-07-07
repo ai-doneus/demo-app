@@ -13,7 +13,7 @@ export function Layout() {
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">DemoApp</h1>
+        <h1 className="text-2xl font">DemoApp</h1>
         <div className="flex space-x-4">
           <Search className="h-6 w-6" />
           <HelpCircle className="h-6 w-6" />

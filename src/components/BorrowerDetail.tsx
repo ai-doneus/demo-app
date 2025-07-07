@@ -15,14 +15,7 @@ import { LoanSummaryCard } from "@/components/LoanSummaryCard";
 export function BorrowerDetail() {
   const { activeBorrower } = useStore();
   const [details, setDetails] = useState<BorrowerDetails | null>(null);
-  function isBorrowerDetails(response: any): response is BorrowerDetails {
-  return (
-    response &&
-    typeof response.id === "string" &&
-    typeof response.name === "string" &&
-    typeof response.loan_amount === "number"
-  );
-}
+  
   useEffect(() => {
   if (activeBorrower) {
     fetch("/api/sample-response.json")
@@ -57,6 +50,7 @@ export function BorrowerDetail() {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>{details.name}</CardTitle>
+        <p className="font-semibold">{details.name}</p>
         <p>{details.email}</p>
         <p>{details.phone}</p>
         <p className="font-semibold">${details.loan_amount.toLocaleString()}</p>
